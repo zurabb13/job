@@ -1,0 +1,81 @@
+{
+  "name": "jobs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/jobs/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/jobs",
+        "index": "apps/jobs/src/index.html",
+        "browser": "apps/jobs/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/jobs/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/jobs/src/favicon.ico", "apps/jobs/src/assets"],
+        "styles": ["apps/jobs/src/styles.scss"],
+        "scripts": [],
+        "server": "apps/jobs/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/jobs/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "jobs:build:production"
+        },
+        "development": {
+          "buildTarget": "jobs:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "jobs:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/jobs/jest.config.ts"
+      }
+    }
+  }
+}
